@@ -17,7 +17,6 @@ a hadoop cluster
 %setup -q
 
 %build
-make test
 
 %install
 umask 0002

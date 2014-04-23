@@ -24,7 +24,6 @@ tgz: clean
 	cp -r $(TOPLEVEL) build/$(PV)
 	mv build/$(PV)/*.spec build/
 	sed -i -e "s/__VERSION__/$(VERSION)/" -e "s/__EXTRAREV__/$(EXTRAREV)/" build/*.spec
-	sed -i -e s/__VERSION__/$(VERSION)/ build/$(PV)/hadoop-utils
 	tar -czf dist/$(PV).tar.gz -C build $(PV)
 
 srpm: tgz
