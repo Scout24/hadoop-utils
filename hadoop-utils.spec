@@ -29,4 +29,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-/usr/bin/chown_subdirs_in_dir
+/usr/bin/hdfs_chown_subdirs_in_dir
