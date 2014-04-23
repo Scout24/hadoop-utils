@@ -22,7 +22,7 @@ a hadoop cluster
 %install
 umask 0002
 rm -rf $RPM_BUILD_ROOT
-install -m 0755 chown_subdirs_in_dir -D $RPM_BUILD_ROOT/usr/bin/chown_subdirs_in_dir
+install -m 0755 hdfs_chown_subdirs_in_dir -D $RPM_BUILD_ROOT/usr/bin/hdfs_chown_subdirs_in_dir
 
 %clean
 rm -rf $RPM_BUILD_ROOT
