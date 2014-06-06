@@ -23,6 +23,7 @@ a hadoop cluster
 umask 0002
 rm -rf $RPM_BUILD_ROOT
 install -m 0755 hdfs_chown_subdirs_in_dir -D $RPM_BUILD_ROOT/usr/bin/hdfs_chown_subdirs_in_dir
+install -m 0755 hdfs_balance_with_exception_check -D $RPM_BUILD_ROOT/usr/bin/hdfs_balance_with_exception_check
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -30,3 +31,4 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 /usr/bin/hdfs_chown_subdirs_in_dir
+/usr/bin/hdfs_balance_with_exception_check

@@ -1,0 +1,12 @@
+LOG_FILE=hadoop.log
+
+sudo -u hdfs balancer "$@" &
+balancer_pid=$!
+
+while ps -p $balancer_pid > /dev/null ; do
+  if grep Exception $LOG_FILE > /dev/null ; then
+    echo "found Exception in $LOG_FILE, killing process $balancer_pid"
+    kill -9 $balancer_pid
+  fi
+done
+
