@@ -2,7 +2,7 @@
 
 export HADOOP_LOG_DIR=/tmp
 
-LOG_FILE=hadoop.log
+LOG_FILE=$HADOOP_LOG_DIR/hadoop.log
 
 rm -f $LOG_FILE
 
