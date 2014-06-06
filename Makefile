@@ -1,7 +1,7 @@
 # set EXTRAREV to append something to the RPM revision, e.g. EXTRAREV=.is24
 
 # this goes into the src archive and this is relevant for the revision
-TOPLEVEL := hdfs_chown_subdirs_in_dir hadoop-utils.spec Makefile
+TOPLEVEL := hdfs_chown_subdirs_in_dir hdfs_balance_with_exception_check hadoop-utils.spec Makefile
 
 GITREV := HEAD
 
