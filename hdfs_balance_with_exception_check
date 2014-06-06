@@ -3,6 +3,8 @@
 export HADOOP_LOG_DIR=.
 LOG_FILE=hadoop.log
 
+rm -f $LOG_FILE
+
 hdfs balancer "$@" &
 balancer_pid=$!
 
@@ -19,5 +21,4 @@ while ps -p $balancer_pid > /dev/null ; do
   sleep 15
 done
 
-rm -f $LOG_FILE
 exit $RET_VAL
