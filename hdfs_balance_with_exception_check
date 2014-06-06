@@ -1,12 +1,23 @@
+#!/bin/bash
+
+export HADOOP_LOG_DIR=.
 LOG_FILE=hadoop.log
 
-sudo -u hdfs balancer "$@" &
+hdfs balancer "$@" &
 balancer_pid=$!
 
+sleep 15
+
+RET_VAL=0
+
 while ps -p $balancer_pid > /dev/null ; do
-  if grep Exception $LOG_FILE > /dev/null ; then
-    echo "found Exception in $LOG_FILE, killing process $balancer_pid"
+  if grep -i error $LOG_FILE > /dev/null ; then
+    echo "found Error in $LOG_FILE, killing process $balancer_pid"
     kill -9 $balancer_pid
+    RET_VAL=1
   fi
+  sleep 15
 done
 
+rm -f $LOG_FILE
+exit $RET_VAL
