@@ -22,11 +22,4 @@ while ps -p $balancer_pid > /dev/null ; do
   sleep 15
 done
 
-wait $balancer_pid
-balancer_status=$?
-
-if [[ $RET_VAL == 0 ]] ; then
-  RET_VAL=$balancer_status
-fi
-
 exit $RET_VAL
