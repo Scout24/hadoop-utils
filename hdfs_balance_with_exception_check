@@ -11,15 +11,35 @@ balancer_pid=$!
 
 sleep 15
 
-RET_VAL=0
+# LeaseExpiredException in logfile & balancing still running      -> continue
+# non-LeaseExpired exception in logfile & balancing still running -> cancel
 
 while ps -p $balancer_pid > /dev/null ; do
-  if grep -i error $LOG_FILE > /dev/null ; then
-    echo "found Error in $LOG_FILE, killing process $balancer_pid"
+  # LeaseExpiredExceptions aren't fatal (balancer exits with 0)
+  # in order to exclude those from our grep for errors we have to build an anti-pattern for all
+  # LeaseExpiredException related errors (the exception name occurs in the line immediately
+  # following the error message)
+  unset PATTERN
+  NAMED_PIPE=/tmp/hdfs_balancer_errors
+  rm -f $NAMED_PIPE
+  mkfifo $NAMED_PIPE
+  # the named pipe is neccessary to due http://mywiki.wooledge.org/BashFAQ/024
+  grep -iA1 error $LOG_FILE | grep -B1 LeaseExpiredException | grep -i error > $NAMED_PIPE &
+  while read line ; do
+    if [ -z "$PATTERN" ] ; then
+      PATTERN=$line
+    else
+      PATTERN=$PATTERN"|"$line
+    fi
+  done < $NAMED_PIPE
+  PATTERN="("$PATTERN")"
+  if grep -i error $LOG_FILE | grep -Ev "$PATTERN" > /dev/null ; then
     kill -9 $balancer_pid
-    RET_VAL=1
   fi
+  rm $NAMED_PIPE
   sleep 15
 done
 
-exit $RET_VAL
+wait $balancer_pid
+exit $?
+
